@@ -188,11 +188,3 @@ a.custom-card:hover {
 .checked {
   color: orange;
 }
-
-.warnings, .emailP, .passP{
-  width: 200px;
-  text-align: center;
-  margin: auto;
-  color: rgb(243, 8, 8);
-  padding-top: 20px;
-}

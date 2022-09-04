@@ -30,10 +30,17 @@ butTag.addEventListener("click", function (){
         emailPar.innerHTML = warningsE
         passPar.innerHTML = warningsP
     } else {
-        window.location = "ex_index.html"
+        if(emailString.value) localStorage.setItem("text", emailString.value);
+        window.location = "index.html"
     }
 });
 
+
+// butTag.addEventListener("click", function(){
+
+//     if(emailString.value) localStorage.setItem("text", emailString.value);
+    
+// })
 
 // butTag.addEventListener("click", function(){
 //     window.location = "index.html"
@@ -45,8 +52,8 @@ function myFunction() {
     elementClean.remove()
 } //this function remove tag <div>, its necessary select one ID
 
-  
 document.addEventListener("DOMContentLoaded", myFunction()) //We apply function when the page loads
+
 
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
@@ -63,6 +70,17 @@ function onSignIn(googleUser) {
     console.log('Image URL: ' + profile.getImageUrl());
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
-    
 
-  
+// window.onload = function () {
+//     google.accounts.id.initialize({
+//       client_id: '239162348248-c16mnpoca1fqsgmq11pt59ebv6d6nnsl.apps.googleusercontent.com',
+//       callback: handleCredentialResponse
+//     });
+//     google.accounts.id.prompt();
+// };
+
+// google.accounts.id.renderButton(
+//     document.getElementById('butGoogle')
+// )
+
+

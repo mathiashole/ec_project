@@ -39,3 +39,13 @@ let getJSONData = function(url){
         return result;
     });
 }
+
+function allowEntry(){
+
+  if(localStorage.getItem('text') === null){
+      window.location = "login.html";
+  } else {
+    document.getElementById('profile').innerHTML = (localStorage.getItem("text"));
+  }
+
+};
