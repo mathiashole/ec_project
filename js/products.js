@@ -46,7 +46,6 @@ function myFunction() {
     elementClean.remove()
 } //this function remove tag <div>, its necessary select one ID
 
-document.addEventListener("DOMContentLoaded", myFunction()) //We apply function when the page loads
 
 
 const ORDER_ASC_BY_COST = "XY";
@@ -86,7 +85,7 @@ function sortProducts(criteria, array){
 }
 
 function setProductID(id) {
-    localStorage.setItem("catID", id);
+    localStorage.setItem("prodID", id);
     window.location = "product-info.html"
 }
 
@@ -201,8 +200,10 @@ document.addEventListener("DOMContentLoaded", function(e){
 
         showProductsList()
     });
+
+    myFunction();
     
-    allowEntry()
+    allowEntry();
 
 });
 
