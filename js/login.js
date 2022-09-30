@@ -30,7 +30,7 @@ butTag.addEventListener("click", function (){
         emailPar.innerHTML = warningsE
         passPar.innerHTML = warningsP
     } else {
-        if(emailString.value) localStorage.setItem("text", emailString.value);
+        if(emailString.value) localStorage.setItem('userName', emailString.value);
         window.location = "index.html"
     }
 });

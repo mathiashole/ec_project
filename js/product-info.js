@@ -7,6 +7,7 @@ const INF_PRODUCT = PRODUCT_INFO_URL + localStorage.getItem("prodID") + EXT_TYPE
 const COMM_PRODUCT = PRODUCT_INFO_COMMENTS_URL + localStorage.getItem("prodID") + EXT_TYPE
 let commentsProductArray = [];
 
+
 // document.getElementsByClassName('fa fa-star')[1].classList.add('checked')  DEBO USAR ESTO
 
 // console.log(ratingStars)
@@ -70,20 +71,28 @@ function showProductsList() {
         <div class="d-flex w-100 justify-content-between">
             <h4 class="">Imagenes ilustrativas:</h4>
         </div>
-        <div id="carouselExampleInterval" class="carousel slide w-60 p-3 mx-auto" data-bs-ride="carousel">
+        <div id="carouselExampleInterval" class="carousel carousel-dark slide w-75 p-3 mx-auto" data-bs-ride="carousel">
         <div class="carousel-inner">
-          <div class="carousel-item active" data-bs-interval="10000">
-            <img src="${itemProduct.images[0]}" class="d-block w-100 rounded" alt="First slide">
-          </div>
-          <div class="carousel-item" data-bs-interval="2000">
-            <img src="${itemProduct.images[1]}" class="d-block w-100 rounded" alt="Second slide">
-          </div>
-          <div class="carousel-item">
-            <img src="${itemProduct.images[2]}" class="d-block w-100 rounded" alt="Third slide">
-          </div>
-          <div class="carousel-item">
-              <img src="${itemProduct.images[3]}" class="d-block w-100 rounded" alt="Fourth slide">
-          </div>
+        `
+        for(let i = 0; i < presentProductArray.images.length; i++){
+            let productImages = presentProductArray.images[i];
+
+            if(productImages == presentProductArray.images[0]){
+                htmlContentToAppend+= `
+            <div class="carousel-item active" data-bs-interval="10000">
+                <img src="${productImages}" class="mx-auto d-block w-75 rounded-3" alt="First slide">
+            </div>
+            `
+            } else { 
+                htmlContentToAppend+=`
+                <div class="carousel-item">
+                    <img src="${productImages}" class="mx-auto d-block w-75 rounded-3" alt="Third slide">
+                </div>`
+            }
+
+        }
+
+        htmlContentToAppend +=`
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -166,16 +175,60 @@ function makeQualifyElement(numberScore, oClock) {
 
 }
 
+
+function showRelatedProducts() {
+
+    let relatedProductsToAppend = "";
+
+    relatedProductsToAppend +=`
+    <div class="col mt-4">
+    <div class="d-flex w-100 justify-content-between">
+        <h1 class="">Productos relacionados</h1>
+    </div>
+    <hr class="my-4">
+    <div class="row row-cols-1 row-cols-md-4 g-4 justify-content-center">
+    `
+    for (let index = 0; index < presentProductArray.relatedProducts.length; index++) {
+        const element = presentProductArray.relatedProducts[index];
+        
+    
+    relatedProductsToAppend+=`
+        <div onclick="setProductID(${element.id})" class="card mx-2 cursor-active">
+            <img src="${element.image}" class="card-img-top" alt="...">
+            <div class="card-body text-center mt-3 cursor-active">
+                <h5 class="card-title">${element.name}</h5>
+            </div>
+        </div>
+    `
+    }
+
+    relatedProductsToAppend+=`
+    </div>
+    </div>
+
+    `
+
+    document.getElementById("related-products").innerHTML = relatedProductsToAppend;
+    console.log(relatedProductsToAppend);
+
+
+}
+
+
+function setProductID(id) {
+    localStorage.setItem("prodID", id);
+    window.location = "product-info.html"
+}
+
+
 //Event listener
 
-//Función que se ejecuta una vez que se haya lanzado el evento de
-//que el documento se encuentra cargado, es decir, se encuentran todos los
-//elementos HTML presentes.
 document.addEventListener("DOMContentLoaded", function (e) {
     getJSONData(INF_PRODUCT).then(function (resultObj) {
         if (resultObj.status === "ok") {
             presentProductArray = resultObj.data
-            showProductsList()
+            showProductsList();
+            showRelatedProducts();
         }
     });
 
@@ -195,7 +248,20 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
     showProductsList();
 
-
-
 });
 
+
+// for (let i = 0; i < presentProductArray.relatedProducts.length; i++) {
+//     let relation = presentProductArray.relatedProducts[i];
+
+//     relatedProductsToAppend += `
+//     <div class="carousel-item active">
+//     <div class="card h-100" style="width: 18rem;">
+//             <img src="${relation.image}" class="card-img-top" alt="${relation.name}">
+//         <div class="card-body">
+//             <h4 class="card-title">${relation.name}</h4>
+//         </div>
+//     </div>
+//     </div>
+//     `
+// }
