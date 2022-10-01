@@ -29,7 +29,7 @@
           <li class="nav-item">
             <a class="nav-link" href="sell.html">Vender</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item dropdown" id="profile">
           </li>
         </ul>
       </div>
@@ -37,10 +37,61 @@
   </nav>
   <main>
     <div class="container">
-      <div class="alert alert-danger text-center" role="alert">
+      <div class="row">
+        <div class="list-group" id="cart-container">
+        </div>
+      </div>
+      <div class="alert alert-danger text-center" role="alert" id="alertClean">
         <h4 class="alert-heading">Funcionalidad en desarrollo</h4>
       </div>
     </div>
+    <div class="container mt-4 bg-light">
+      <hr class="mt-4">
+    <div class="row">
+      <h3 class="mb-3">Tipo de envio</h3>
+        <div class="d-block my-3">
+          <div class="custom-control custom-radio">
+              <input id="goldradio" name="publicationType" type="radio" class="custom-control-input" checked=""
+                required="">
+              <label class="custom-control-label" for="goldradio">Premium 2 a 5 dias (15%)</label>
+          </div>
+          <div class="custom-control custom-radio">
+              <input id="premiumradio" name="publicationType" type="radio" class="custom-control-input" required="">
+              <label class="custom-control-label" for="premiumradio">Express 5 a 8 dias (7%)</label>
+          </div>
+          <div class="custom-control custom-radio">
+              <input id="standardradio" name="publicationType" type="radio" class="custom-control-input" required="">
+              <label class="custom-control-label" for="standardradio">Standard 12 a 15 dias (5%)</label>
+          </div>
+        </div>
+    </div>
+    </div>
+    <div class="container mb-4 bg-light">
+    <div class="row">
+      <h3 class="mb-4 mt-4">Direccion de envio</h3>
+      <div class="col-md-6">
+        <label for="streetHome">Calle</label>
+        <input type="text" class="form-control" id="streetHome" value="" name="streetHome">
+        <div class="invalid-feedback">
+          Ingresa una calle
+        </div>
+      </div>
+      <div class="col-md-6">  
+        <label for="numberHome">Numero</label>
+        <input type="text" class="form-control" id="numberHome" value="" name="numberHome">
+        <div class="invalid-feedback">
+          Ingresa un numero
+        </div>
+      </div>
+      <div class="col-md-6">  
+        <label for="cornerHome">Esquina</label>
+        <input type="text" class="form-control" id="cornerHome" value="" name="cornerHome">
+        <div class="invalid-feedback">
+          Ingresa una calle
+        </div>
+      </div>
+    </div>
+    <hr class="mt-4">
   </main>
   <footer class="text-muted">
     <div class="container">
