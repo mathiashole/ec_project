@@ -36,6 +36,7 @@ function showProductsList() {
     <div class="col">
         <div class="d-flex justify-content-between mx-5 mt-4">
             <h1 class="mb-1">${itemProduct.name}</h1>
+            <button type="button" class="btn btn-success" id="btnAddCart">Agregar al carrito</button>
         </div>
             <hr class="my-4">
         <div class="col mt-4">

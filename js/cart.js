@@ -4,6 +4,7 @@ console.log('this event active');
 
 const CART_USER = "https://japceibal.github.io/emercado-api/user_cart/25801.json"
 
+
 //Function
 
 function myFunction() {
@@ -13,7 +14,7 @@ function myFunction() {
 
 
 function showCartList() {
-
+    
     let cartToAppend = "";
     let itemCart = presentCartArray;
 
@@ -45,19 +46,19 @@ function showCartList() {
             cartToAppend +=`
             <tr class="text-center">
                 <th>
-                    <img src="${infoCart.image}" class="w-25 rounded-3">          
+                    <button type="button" class="btn"><img src="${infoCart.image}" class="rounded-3" width="90" height="60"></button>          
                 </th>
                 <th>
                     <p>${infoCart.name}</p>          
                 </th>
                 <th>              
-                    <p>${infoCart.currency + infoCart.unitCost}</p>          
+                    <p>${infoCart.currency + " " + infoCart.unitCost}</p>          
+                </th>
+                <th class="col-1">
+                <input type="number" name="cartCostInput" class="form-control" id="cartCount" value=${infoCart.count} min="1">          
                 </th>
                 <th>
-                    <p>${infoCart.count}</p>          
-                </th>
-                <th>
-                    <b>${infoCart.currency + (infoCart.count * infoCart.unitCost)}</b>          
+                    <b id="kek">${infoCart.currency + " " + infoCart.unitCost}</b>          
                 </th>
             </tr>    
             `
@@ -73,6 +74,7 @@ function showCartList() {
     document.getElementById("cart-container").innerHTML = cartToAppend;
 
 }
+
 
 
 //Event listener
@@ -91,3 +93,18 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
 
 });
+
+
+function cat(){
+    window.addEventListener("input", function(event) {
+   
+    const met = document.getElementById("cartCount");
+    met.value == undefined ? met.value = 1 : met.value
+    console.log(met.value)
+    
+});}
+
+// function showNumber(){
+//     document.getElementById("cartCount").value;
+//     console.log(document.getElementById("cartCount").value)
+// }
