@@ -39,6 +39,59 @@
     <div class="container">
       <div class="row">
         <div class="list-group" id="cart-container">
+          <div class="col mb-4">
+            <div class="d-flex justify-content-center mx-5 mt-4">
+                <h1 class="mb-1">Carrito de compras</h1>
+            </div>
+            <div class="col mt-4">
+                <div class="col">
+                    <h4 class="d-flex w-100 justify-content-between mb-4">Articulos a comprar</h4>
+                </div>
+            </div>
+            <table class="table" >
+              <thead class="table-dark text-center">
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Costo</th>
+                  <th scope="col">Cantidad</th>
+                  <th scope="col">Agregar</th>
+                  <th scope="col">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody id="itemsCart"></tbody>
+                <tfoot>
+                  <tr id="footer">
+                    <th scope="row" colspan="5">Carrito vacio, Agregue sus productos</th>
+                  </tr>
+                </tfoot>    
+            </table> 
+                <template id="templateTable">
+                    <tr class="text-center">
+                    <th>
+                      <button type="button" class="btn"><img src="" class="rounded-3" width="90" height="60"></button>          
+                    </th>
+                    <td>         
+                    </td>
+                    <td>                       
+                    </td>
+                    <td>        
+                    </td>
+                    <td>
+                      <button class="btn btn-success btn-sm" > + </button>
+                      <button class="btn btn-danger btn-sm"> - </button>          
+                    </td>
+                    <td>
+                      <b></b>
+                      <b></b>          
+                    </td>
+                    </tr>
+                </template>
+                <template>
+                  <th scope="row" colspan="5">Productos del carrito</th>
+                  <td><button class="btn btn-danger" id="emptyCart">Vaciar carrito</button></td>
+                </template>
+            </div>
         </div>
       </div>
       <div class="alert alert-danger text-center" role="alert" id="alertClean">
