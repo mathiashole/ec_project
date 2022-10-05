@@ -55,7 +55,7 @@
                   <th scope="col">Nombre</th>
                   <th scope="col">Costo</th>
                   <th scope="col">Cantidad</th>
-                  <th scope="col">Agregar</th>
+                  <!-- <th scope="col">Agregar</th> -->
                   <th scope="col">Subtotal</th>
                 </tr>
               </thead>
@@ -75,15 +75,17 @@
                     </td>
                     <td>                       
                     </td>
-                    <td>        
+                    <td class="col-1">
+                      <input type="number" name="cartCostInput" class="form-control" id="cartCount" placeholder="" required="" value="0"
+                      min="0">        
                     </td>
-                    <td>
+                    <!-- <td>
                       <button class="btn btn-success btn-sm" > + </button>
                       <button class="btn btn-danger btn-sm"> - </button>          
-                    </td>
+                    </td> -->
                     <td>
                       <b></b>
-                      <b></b>          
+                      <b id="totalCost"></b>          
                     </td>
                     </tr>
                 </template>
