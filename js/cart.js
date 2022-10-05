@@ -19,13 +19,13 @@ function myFunction() {
 
 const setCart = () => {
 
-    presentCartArray.articles.forEach(items =>{
+    let init = presentCartArray.articles[0]
 
         const product = {
-            id  : items.id,
-            name : items.name,
-            unitCost : items.unitCost,
-            currency : items.currency,
+            id  : init.id,
+            name : init.name,
+            unitCost : init.unitCost,
+            currency : init.currency,
             
         }
 
@@ -36,18 +36,18 @@ const setCart = () => {
         cart[product.id] = {...product}
 
         console.log(product)
-    })
 
 }
 
 const showCart = () => {
-    console.log(presentCartArray);
+
+    cat();   
     itemsCart.innerHTML = ''
     presentCartArray.articles.forEach(product => {
         templateCart.querySelector('img').setAttribute('src', product.image)
         templateCart.querySelectorAll('td')[0].textContent =product.name
         templateCart.querySelectorAll('td')[1].textContent = product.currency + " " + product.unitCost
-        templateCart.querySelectorAll('td')[2].textContent =product.count
+        // templateCart.querySelector('input').setAttribute('value', product.count) 
         templateCart.querySelector('.btn-success').dataset.id = product.id
         templateCart.querySelector('.btn-danger').dataset.id = product.id
         templateCart.querySelectorAll('b')[0].textContent =  product.currency
@@ -59,6 +59,7 @@ const showCart = () => {
     itemsCart.appendChild(fragment)
 
     showFooter()
+
 }
 
 const showFooter = () => {
@@ -141,6 +142,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     getJSONData(CART_USER).then(function (resultObj) {
         if (resultObj.status === "ok") {
             presentCartArray = resultObj.data
+            setCart();
             showCart();
         }
     });
@@ -156,9 +158,9 @@ function cat(){
     window.addEventListener("input", function(event) {
    
     const numberObject = document.getElementById("cartCount");
-
-    numberObject.value
-    
+    console.log(numberObject.value)
+    return(parseInt(numberObject.value))    
+        
 });}
 
 // function showNumber(){
