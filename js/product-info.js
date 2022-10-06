@@ -6,6 +6,7 @@ let listExample = document.getElementById('listProduct')
 const INF_PRODUCT = PRODUCT_INFO_URL + localStorage.getItem("prodID") + EXT_TYPE
 const COMM_PRODUCT = PRODUCT_INFO_COMMENTS_URL + localStorage.getItem("prodID") + EXT_TYPE
 let commentsProductArray = [];
+const btnAddCart = document.getElementById('btnAddCart');
 
 
 // document.getElementsByClassName('fa fa-star')[1].classList.add('checked')  DEBO USAR ESTO
@@ -33,10 +34,10 @@ function showProductsList() {
     let itemProduct = presentProductArray;
 
     htmlContentToAppend += `
-    <div class="col">
+    <div id="infoOfProduct" class="col">
         <div class="d-flex justify-content-between mx-5 mt-4">
             <h1 class="mb-1">${itemProduct.name}</h1>
-            <button type="button" class="btn btn-success" id="btnAddCart">Agregar al carrito</button>
+            <button type="button" class="btn btn-primary" id="btnAddCart">Agregar al carrito</button>
         </div>
             <hr class="my-4">
         <div class="col mt-4">
@@ -210,7 +211,6 @@ function showRelatedProducts() {
     `
 
     document.getElementById("related-products").innerHTML = relatedProductsToAppend;
-    console.log(relatedProductsToAppend);
 
 
 }
@@ -221,6 +221,14 @@ function setProductID(id) {
     window.location = "product-info.html"
 }
 
+function changeButton(){
+    document.getElementById('btnAddCart').classList.replace("btn-primary", "btn-success")
+    document.getElementById('btnAddCart').innerHTML = "Agregado ✓"
+}
+
+function setArrayProduct(array){
+    localStorage.setItem("arrayProductInfo",JSON.stringify(array))
+}
 
 //Event listener
 
@@ -230,6 +238,11 @@ document.addEventListener("DOMContentLoaded", function (e) {
             presentProductArray = resultObj.data
             showProductsList();
             showRelatedProducts();
+            
+            document.getElementById('btnAddCart').addEventListener("click", function(){
+                setArrayProduct(presentProductArray);
+                changeButton();
+            })
         }
     });
 
@@ -250,6 +263,8 @@ document.addEventListener("DOMContentLoaded", function (e) {
     showProductsList();
 
 });
+
+
 
 
 // for (let i = 0; i < presentProductArray.relatedProducts.length; i++) {

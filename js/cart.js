@@ -7,6 +7,8 @@ const itemsCart = document.getElementById('itemsCart');
 const footer = document.getElementById('footer');
 const templateCart = document.getElementById("templateTable").content;
 const fragment = document.createDocumentFragment();
+const templateTableSecond = document.getElementById("templateTableSecond").content;
+const fromToInfoProduct = document.getElementById("fromToInfoProduct");
 let cart = {};
 
 
@@ -84,6 +86,27 @@ function cat(){
         
 });}
 
+function getProductInfo(){
+    let arrayCartProduct = localStorage.getItem("arrayProductInfo");
+    arrayCartProduct = JSON.parse(arrayCartProduct);
+    console.log(arrayCartProduct);
+    
+    console.log(arrayCartProduct.images[0])
+    templateTableSecond.querySelector('img').setAttribute('src', arrayCartProduct.images[0])
+    templateTableSecond.querySelectorAll('td')[0].textContent =arrayCartProduct.name
+    templateTableSecond.querySelectorAll('td')[1].textContent = arrayCartProduct.currency + " " + arrayCartProduct.cost
+    templateTableSecond.querySelector('input').setAttribute('value', 1) 
+    // templateTableSecond.querySelector('.btn-success').dataset.id = arrayCartProduct.id
+    // templateTableSecond.querySelector('.btn-danger').dataset.id = arrayCartProduct.id
+    templateTableSecond.querySelectorAll('b')[0].textContent =  arrayCartProduct.currency
+    templateTableSecond.querySelectorAll('b')[1].textContent =  1 * arrayCartProduct.cost
+
+    const clone = templateTableSecond.cloneNode(true)
+    fragment.appendChild(clone)
+
+    itemsCart.appendChild(fragment)
+}
+
 
 
 //Event listener
@@ -94,6 +117,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
             presentCartArray = resultObj.data
             cat();
             showCart();
+            getProductInfo();
         }
     });
 
@@ -103,8 +127,3 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
 });
 
-
-// function showNumber(){
-//     document.getElementById("cartCount").value;
-//     console.log(document.getElementById("cartCount").value)
-// }
