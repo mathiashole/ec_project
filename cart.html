@@ -76,8 +76,7 @@
                     <td>                       
                     </td>
                     <td class="col-1">
-                      <input type="number" name="cartCostInput" class="form-control" id="cartCount" placeholder="" required="" value="0"
-                      min="0">        
+                      <input type="number" name="cartCostInput" class="form-control" value="0" min="1" oninput="cat()">        
                     </td>
                     <!-- <td>
                       <button class="btn btn-success btn-sm" > + </button>
@@ -85,7 +84,7 @@
                     </td> -->
                     <td>
                       <b></b>
-                      <b id="totalCost"></b>          
+                      <b id="totalCost" data-id=""></b>          
                     </td>
                     </tr>
                 </template>
@@ -99,8 +98,8 @@
                   <td>                       
                   </td>
                   <td class="col-1">
-                    <input type="number" name="cartCostInput" class="form-control" id="cartCountSecond" placeholder="" required="" value="0"
-                    min="0">        
+                    <input type="number" name="cartCostInput" class="form-control" placeholder="" required="" value="0"
+                    min="1"  oninput="catTwo()">        
                   </td>
                   <!-- <td>
                     <button class="btn btn-success btn-sm" > + </button>
@@ -108,7 +107,7 @@
                   </td> -->
                   <td>
                     <b></b>
-                    <b id="totalCostSecond"></b>          
+                    <b id="totalCostTwo" data-id=""></b>          
                   </td>
                   </tr>
               </template>
@@ -149,27 +148,152 @@
       <h3 class="mb-4 mt-4">Direccion de envio</h3>
       <div class="col-md-6">
         <label for="streetHome">Calle</label>
-        <input type="text" class="form-control" id="streetHome" value="" name="streetHome">
-        <div class="invalid-feedback">
-          Ingresa una calle
+        <input type="text" class="form-control" id="street-home" value="" name="streetHome">
+        <div id="validation-street" class="">
+          
         </div>
       </div>
       <div class="col-md-6">  
         <label for="numberHome">Numero</label>
-        <input type="text" class="form-control" id="numberHome" value="" name="numberHome">
-        <div class="invalid-feedback">
-          Ingresa un numero
+        <input type="text" class="form-control" id="number-home" value="" name="numberHome">
+        <div id="validation-number" class="">
+          
         </div>
       </div>
       <div class="col-md-6">  
         <label for="cornerHome">Esquina</label>
-        <input type="text" class="form-control" id="cornerHome" value="" name="cornerHome">
-        <div class="invalid-feedback">
-          Ingresa una calle
+        <input type="text" class="form-control" id="sqr-home" value="" name="cornerHome">
+        <div id="validation-sqr" class="">
+          
         </div>
       </div>
     </div>
     <hr class="mt-4">
+    </div>
+    <div class="container mb-4">
+      <div class="row">
+        <h3 class="mb-4 mt-4">Costos</h3>
+        <div class="list-group" id="subtotal-container">
+          <div class="col">
+            <div class="list-group-item">
+              <div class="row">
+                <div class="d-flex w-100 justify-content-between">
+                  <div>
+                    <h5 class="mb-1">Subtotal</h5>
+                    <p>Costo unitario del producto por cantidad</p>
+                  </div>
+                  <div>
+                    <p>artículos</p>
+                  </div>
+                </div>
+              </div>  
+            </div>
+            <div class="list-group-item">
+              <div class="row">
+                <div class="d-flex w-100 justify-content-between">
+                  <div>
+                    <h5 class="mb-1">Costo de envio</h5>
+                    <p>Segun el tipo de envio</p>
+                  </div>
+                  <div>
+                    <p>artículos</p>
+                  </div>
+                </div>
+              </div>  
+            </div>
+            <div class="list-group-item">
+              <div class="row">
+                <div class="d-flex w-100 justify-content-between">
+                  <div>
+                    <h5 class="mb-1">Total {$}</h5>
+                  </div>
+                  <div>
+                    <p>artículos</p>
+                  </div>
+                </div>
+              </div>  
+            </div>
+          </div> 
+        </div>
+      </div>
+      <!-- <hr class="mt-4"> -->
+    </div>
+    <div class="container mb-4 mt-4 bg-light">
+      <hr class="mt-4">
+      <div class="row">
+        <h3 class="mb-4 mt-4">Forma de pago</h3><br>
+        <div class="d-md-flex">
+          <p class="mb-1">¿Cómo lo querés pagar?</p>
+          <button type="button" class="btn btn-primary mb-4 ms-4" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Seleccionar</button>
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Forma de pago</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="container mb-3">
+                      <div class="row">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="credit-cart" value="option1">
+                        <label class="form-check-label" for="exampleRadios1">Tarjeta de credito</label>
+                      </div>
+                      </div>
+                    </div>
+                    <div class="container bg-light">
+                      <div class="row">
+                        <hr class="mb-4">
+                        <div class="col-md-6 mb-1">
+                          <label for="streetHome">Numero de tarjeta</label>
+                          <input type="text" class="form-control" id="" value="">
+                        </div>
+                        <div class="col-md-4 mb-1">  
+                          <label for="numberHome">Codigo de seg.</label>
+                          <input type="text" class="form-control" id="" value="">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6 mt-2">
+                          <label>Vencimiento (MM/AA)</label>
+                          <input type="text" class="form-control" id="" value="">
+                        </div>
+                      </div>
+                      <hr>
+                    </div>
+                    <div class="container mb-3">
+                      <div class="row">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="wire-transfer" value="option2">
+                        <label class="form-check-label" for="exampleRadios2">Transferencia bancaria</label>
+                      </div>
+                      </div>
+                    </div>
+                    <div class="container bg-light">
+                      <div class="row">
+                        <hr class="mb-4">
+                        <div class="col-md-6 mb-1">
+                          <label>Numero de tarjeta</label>
+                          <input type="text" class="form-control" id="" value="">
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p id="validation-pay" class=""></p>
+      </div>
+      <div class="d-grid gap-2 mt-5">
+        <button class="btn btn-primary btn-lg" type="button" onclick="carValidation()">Finalizar compra</button>
+      </div>
+    </div>
   </main>
   <footer class="text-muted">
     <div class="container">
