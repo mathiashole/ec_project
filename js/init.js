@@ -43,7 +43,7 @@ let getJSONData = function(url){
 function allowEntry(){
 
   if(localStorage.getItem('userName') === null){
-      window.location = "login.html";
+    window.location = "login.html";
   } else {
     // document.getElementById('profile').innerHTML = (localStorage.getItem("text"));
     showUserMenu();
@@ -60,12 +60,12 @@ function showUserMenu() {
   userToAppend += `
   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
   ${userGet}
-</a>
-<ul class="dropdown-menu">
-  <li><a class="dropdown-item-text" href="cart.html">Mi carrito</a></li>
-  <li><a class="dropdown-item-text" href="my-profile.html">Mi perfil</a></li>
-  <li><a class="dropdown-item-text" onclick= "signOff()">Cerrar sesion</a></li>
-</ul>
+  </a>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item-text" href="cart.html">Mi carrito</a></li>
+    <li><a class="dropdown-item-text" href="my-profile.html">Mi perfil</a></li>
+    <li><a class="dropdown-item-text" onclick= "signOff()">Cerrar sesion</a></li>
+  </ul>
 
   `
 
@@ -83,3 +83,5 @@ function signOff(){
   };
 
 }
+
+

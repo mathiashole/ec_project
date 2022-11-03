@@ -18,6 +18,12 @@ const validationsqr = document.getElementById('validation-sqr');
 const creditcart = document.getElementById('credit-cart');
 const wiretransfer = document.getElementById('wire-transfer');
 const validationpay = document.getElementById('validation-pay');
+const goldradio = document.getElementById('goldradio');
+const premiumradio = document.getElementById('premiumradio');
+const standardradio = document.getElementById('standardradio');
+const containerPrice = document.getElementById('containerPrice');
+const buySuccess = document.getElementById('buySuccess');
+const exampleModal = document.getElementById("exampleModal");
 const map = [];
 let number = {};
 
@@ -35,10 +41,10 @@ const showCart = () => {
     itemsCart.innerHTML = ''
     presentCartArray.articles.forEach(product => {
         
-        templateCart.querySelector('input').setAttribute('id', product.id)
+        // templateCart.querySelector('input').setAttribute('id', product.id)
         templateCart.querySelector('img').setAttribute('src', product.image)
-        templateCart.querySelectorAll('td')[0].textContent =product.name
-        templateCart.querySelectorAll('td')[1].dataset.id = product.id
+        templateCart.querySelectorAll('td')[0].textContent = product.name
+        // templateCart.querySelectorAll('td')[1].dataset.id = product.id
         templateCart.querySelectorAll('td')[1].textContent = product.currency + " " + product.unitCost
         templateCart.querySelector('input').dataset.id = product.id
         templateCart.querySelector('input').setAttribute('value', product.count) 
@@ -47,6 +53,7 @@ const showCart = () => {
         templateCart.querySelectorAll('b')[0].textContent =  product.currency
         templateCart.querySelectorAll('b')[1].dataset.id = product.id
         templateCart.querySelectorAll('b')[1].textContent =  1 * product.unitCost
+        templateCart.querySelectorAll('button')[1].dataset.id = product.id
 
         const clone = templateCart.cloneNode(true)
         fragment.appendChild(clone)
@@ -69,12 +76,16 @@ const showFooter = () => {
 
 function catTwo(){
 
-    const kep = map[0].cost;
+    // arrayCartProduct.array.forEach(element => {
+    //     document.getElementById("totalCostTwo").innerHTML = element
+    // });
+
+
+    const kep = templateTableSecond.querySelectorAll('td')[1].textContent.slice(4);
     const numberO = document.querySelectorAll('input')[1].value
-    console.log(numberO)
-    console.log(kep*numberO)
     document.getElementById("totalCostTwo").innerHTML = kep*numberO
-        
+    //document.getElementById("totalCostTwo").innerHTML = document.getElementById('totalCostTwo').textContent*document.querySelectorAll('input')[1].value
+
 }
 
 
@@ -82,27 +93,24 @@ function cat(){
 
     const init = presentCartArray.articles[0]
     const numberObject = document.querySelectorAll('input')[0].value;
-    console.log(init.unitCost*numberObject)
     document.getElementById("totalCost").innerHTML = init.unitCost * numberObject 
         
 }
 
 function getProductInfo(){
     
-    let arrayCartProduct = localStorage.getItem("arrayProductInfo");
+    let arrayCartProduct = localStorage.getItem("data");
     
     if(arrayCartProduct == null){
-        localStorage.setItem('arrayProductInfo', '[]')
+        localStorage.setItem('data', '[]')
     }
 
     arrayCartProduct = JSON.parse(arrayCartProduct);
-    map.push(arrayCartProduct);
+    //map.push(arrayCartProduct);
     
     
-    if(map != null){
-    console.log(map)
-    map.forEach(comeMap => {
-        console.log(comeMap)
+    if(arrayCartProduct != null){
+    arrayCartProduct.forEach(comeMap => {
     templateTableSecond.querySelector('input').setAttribute('id', comeMap.id)
     templateTableSecond.querySelector('img').setAttribute('src', comeMap.images[0])
     templateTableSecond.querySelectorAll('td')[0].textContent =comeMap.name
@@ -111,8 +119,10 @@ function getProductInfo(){
     // templateTableSecond.querySelector('.btn-success').dataset.id = comeMap.id
     // templateTableSecond.querySelector('.btn-danger').dataset.id = comeMap.id
     templateTableSecond.querySelectorAll('b')[0].textContent =  comeMap.currency
+    templateTableSecond.querySelectorAll('b')[0].setAttribute('id', 'typeOfMoneyTwo')
     templateTableSecond.querySelectorAll('b')[1].dataset.id = comeMap.id
     templateTableSecond.querySelectorAll('b')[1].textContent =  1 * comeMap.cost
+    templateTableSecond.querySelectorAll('button')[1].dataset.id = comeMap.id
 
     const clone = templateTableSecond.cloneNode(true)
     fragment.appendChild(clone)
@@ -129,9 +139,64 @@ function carValidation(){
     numberhome.value != '' ? (validationnumber.className = 'valid-feedback') && (validationnumber.textContent = "Esta correcto") && (numberhome.className = 'form-control is-valid') : (validationnumber.className = 'invalid-feedback') && (validationnumber.textContent = "Ingresa un numero") && (numberhome.className = 'form-control is-invalid') && (checkTotal = true);
     streethome.value != '' ? (validationsqr.className = 'valid-feedback') && (validationsqr.textContent = "Esta correcto") && (sqrhome.className = 'form-control is-valid') : (validationsqr.className = 'invalid-feedback') && (validationsqr.textContent = "Ingresa una esquina") && (sqrhome.className = 'form-control is-invalid') && (checkTotal = true);
     creditcart.checked || wiretransfer.checked ? (validationpay.className = 'text-success') && (validationpay.textContent = "Forma de pago seleccionada correctamente") : (validationpay.className = 'text-danger') && (validationpay.textContent = "Debe seleccionar forma de pago") && (checkTotal = true);
-    checkTotal ? alert("Hay campos obligatorios vacios") :  console.log()
+    checkTotal ? alert("Hay campos obligatorios vacios") : (document.getElementById('buySuccess').className = 'alert alert-success') && (document.getElementById('buySuccess').querySelector('strong').textContent = "Has comprado con exito!")
 
 }
+
+function calcPercent(){
+    const typeOfMoney = document.getElementById('typeOfMoney');
+    const typeOfMoneyTwo = document.getElementById('typeOfMoneyTwo');
+
+    const totalCost = typeOfMoney.textContent == 'UYU' ? (parseInt(document.getElementById('totalCost').textContent))/2 : (parseInt(document.getElementById('totalCost').textContent))/1;
+    const totalCostTwo = typeOfMoneyTwo.textContent == 'UYU' ? (parseInt(document.getElementById('totalCostTwo').textContent))/2 : (parseInt(document.getElementById('totalCostTwo').textContent))/1;
+
+
+    goldradio.checked ? containerPrice.querySelectorAll('p')[3].textContent = 'USD ' + Math.round(0.15*totalCost + totalCostTwo) : NaN;
+    premiumradio.checked ? containerPrice.querySelectorAll('p')[3].textContent = 'USD ' + Math.round(0.07*totalCost + totalCostTwo) : NaN;
+    standardradio.checked ? containerPrice.querySelectorAll('p')[3].textContent = 'USD ' + Math.round(0.05*totalCost + totalCostTwo) : NaN; 
+}
+
+function calcSubtotal(){
+    const typeOfMoney = document.getElementById('typeOfMoney');
+    const typeOfMoneyTwo = document.getElementById('typeOfMoneyTwo');
+
+    const totalCost = typeOfMoney.textContent == 'UYU' ? (parseInt(document.getElementById('totalCost').textContent))/42 : (parseInt(document.getElementById('totalCost').textContent))/1;
+    const totalCostTwo = typeOfMoneyTwo.textContent == 'UYU' ? (parseInt(document.getElementById('totalCostTwo').textContent))/42 : (parseInt(document.getElementById('totalCostTwo').textContent))/1;
+    
+    containerPrice.querySelectorAll('p')[1].textContent = 'USD ' + Math.round(totalCost + totalCostTwo)
+
+}
+
+function calcTotal(){
+    const typeOfMoney = document.getElementById('typeOfMoney');
+    const typeOfMoneyTwo = document.getElementById('typeOfMoneyTwo');
+    const totalPercent = parseInt(containerPrice.querySelectorAll('p')[3].textContent.slice(4));
+
+
+    const totalCost = typeOfMoney.textContent == 'UYU' ? (parseInt(document.getElementById('totalCost').textContent))/2 : (parseInt(document.getElementById('totalCost').textContent))/1;
+    const totalCostTwo = typeOfMoneyTwo.textContent == 'UYU' ? (parseInt(document.getElementById('totalCostTwo').textContent))/2 : (parseInt(document.getElementById('totalCostTwo').textContent))/1;
+    
+    containerPrice.querySelectorAll('p')[4].textContent = 'USD ' + Math.round(totalCost + totalCostTwo + totalPercent)
+    
+
+}
+
+function disableBox(){
+
+    if(wiretransfer.checked){
+        exampleModal.querySelectorAll('input')[1].disabled = true
+        exampleModal.querySelectorAll('input')[2].disabled = true
+        exampleModal.querySelectorAll('input')[3].disabled = true
+        exampleModal.querySelectorAll('input')[5].disabled = false
+    } else if(creditcart.checked){
+        exampleModal.querySelectorAll('input')[1].disabled = false
+        exampleModal.querySelectorAll('input')[2].disabled = false
+        exampleModal.querySelectorAll('input')[3].disabled = false
+        exampleModal.querySelectorAll('input')[5].disabled = true
+    }
+}
+
+
 
 //Event listener
 
@@ -142,6 +207,9 @@ document.addEventListener("DOMContentLoaded", function (e) {
             // cat();
             showCart();
             getProductInfo();
+            calcPercent();
+            calcSubtotal();
+            calcTotal();
         }
     });
 
@@ -150,4 +218,14 @@ document.addEventListener("DOMContentLoaded", function (e) {
     allowEntry();
 
     // cat();
+});
+
+document.addEventListener("input", function(e){
+    calcPercent();
+    calcSubtotal();
+    calcTotal();
+})
+
+exampleModal.addEventListener("click", function(e){
+    disableBox();
 });

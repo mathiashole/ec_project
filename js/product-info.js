@@ -7,7 +7,7 @@ const INF_PRODUCT = PRODUCT_INFO_URL + localStorage.getItem("prodID") + EXT_TYPE
 const COMM_PRODUCT = PRODUCT_INFO_COMMENTS_URL + localStorage.getItem("prodID") + EXT_TYPE
 let commentsProductArray = [];
 const btnAddCart = document.getElementById('btnAddCart');
-
+const newArray = [];
 
 // document.getElementsByClassName('fa fa-star')[1].classList.add('checked')  DEBO USAR ESTO
 
@@ -226,8 +226,34 @@ function changeButton(){
     document.getElementById('btnAddCart').innerHTML = "Agregado ✓"
 }
 
-function setArrayProduct(array){
-    localStorage.setItem("arrayProductInfo",JSON.stringify(array))
+// function setArrayProduct(array){
+
+//     localStorage.setItem("arrayProductInfo",JSON.stringify(array));
+
+// }
+
+function getAndconcatArray(array){
+    
+    const new_data = array;
+    
+    if(localStorage.getItem('data') == null){
+        localStorage.setItem('data', '[]');
+    }
+
+    const id_number = (JSON.parse(localStorage.getItem('data'))).forEach(element => console.log(element.id))
+
+    console.log(id_number)
+
+    const old_data = JSON.parse(localStorage.getItem('data'));
+    
+    old_data.push(new_data);
+
+
+    localStorage.setItem('data', JSON.stringify(old_data));
+
+    console.log(new_data);
+    console.log(old_data);
+
 }
 
 //Event listener
@@ -240,8 +266,11 @@ document.addEventListener("DOMContentLoaded", function (e) {
             showRelatedProducts();
             
             document.getElementById('btnAddCart').addEventListener("click", function(){
-                setArrayProduct(presentProductArray);
+                
+                getAndconcatArray(presentProductArray);
+                //setArrayProduct(presentProductArray);
                 changeButton();
+
             })
         }
     });
