@@ -53,7 +53,7 @@ const showCart = () => {
         templateCart.querySelectorAll('b')[0].textContent =  product.currency
         templateCart.querySelectorAll('b')[1].dataset.id = product.id
         templateCart.querySelectorAll('b')[1].textContent =  1 * product.unitCost
-        templateCart.querySelectorAll('button')[1].dataset.id = product.id
+        templateCart.querySelectorAll('button')[1].id = product.id
 
         const clone = templateCart.cloneNode(true)
         fragment.appendChild(clone)
@@ -71,20 +71,6 @@ const showFooter = () => {
         <th scope="row" colspan="5">Carrito vacio, Agregue sus productos</th>
         `
     }
-
-}
-
-function catTwo(){
-
-    // arrayCartProduct.array.forEach(element => {
-    //     document.getElementById("totalCostTwo").innerHTML = element
-    // });
-
-
-    const kep = templateTableSecond.querySelectorAll('td')[1].textContent.slice(4);
-    const numberO = document.querySelectorAll('input')[1].value
-    document.getElementById("totalCostTwo").innerHTML = kep*numberO
-    //document.getElementById("totalCostTwo").innerHTML = document.getElementById('totalCostTwo').textContent*document.querySelectorAll('input')[1].value
 
 }
 
@@ -106,23 +92,22 @@ function getProductInfo(){
     }
 
     arrayCartProduct = JSON.parse(arrayCartProduct);
-    //map.push(arrayCartProduct);
-    
     
     if(arrayCartProduct != null){
     arrayCartProduct.forEach(comeMap => {
-    templateTableSecond.querySelector('input').setAttribute('id', comeMap.id)
+    //templateTableSecond.querySelector('input').setAttribute('id', comeMap.id)
     templateTableSecond.querySelector('img').setAttribute('src', comeMap.images[0])
     templateTableSecond.querySelectorAll('td')[0].textContent =comeMap.name
     templateTableSecond.querySelectorAll('td')[1].textContent = comeMap.currency + " " + comeMap.cost
-    templateTableSecond.querySelector('input').setAttribute('value', 1) 
+    templateTableSecond.querySelector('input').setAttribute('value', 1)
+    templateTableSecond.querySelector('input').dataset.id = comeMap.id 
     // templateTableSecond.querySelector('.btn-success').dataset.id = comeMap.id
     // templateTableSecond.querySelector('.btn-danger').dataset.id = comeMap.id
     templateTableSecond.querySelectorAll('b')[0].textContent =  comeMap.currency
     templateTableSecond.querySelectorAll('b')[0].setAttribute('id', 'typeOfMoneyTwo')
     templateTableSecond.querySelectorAll('b')[1].dataset.id = comeMap.id
     templateTableSecond.querySelectorAll('b')[1].textContent =  1 * comeMap.cost
-    templateTableSecond.querySelectorAll('button')[1].dataset.id = comeMap.id
+    templateTableSecond.querySelectorAll('button')[1].id = comeMap.id
 
     const clone = templateTableSecond.cloneNode(true)
     fragment.appendChild(clone)
@@ -144,28 +129,36 @@ function carValidation(){
 }
 
 function calcPercent(){
-    const typeOfMoney = document.getElementById('typeOfMoney');
-    const typeOfMoneyTwo = document.getElementById('typeOfMoneyTwo');
+    let totalCostTwo = document.querySelectorAll('b#totalCostTwo');
+    let typeOfMoneyTwo = document.querySelectorAll('b#typeOfMoneyTwo');
+    let typeOfMoney = document.querySelectorAll('b#typeOfMoney');
+    let totalCost = document.querySelectorAll('b#totalCost');
+    let sum = 0;
 
-    const totalCost = typeOfMoney.textContent == 'UYU' ? (parseInt(document.getElementById('totalCost').textContent))/2 : (parseInt(document.getElementById('totalCost').textContent))/1;
-    const totalCostTwo = typeOfMoneyTwo.textContent == 'UYU' ? (parseInt(document.getElementById('totalCostTwo').textContent))/2 : (parseInt(document.getElementById('totalCostTwo').textContent))/1;
+    for (let index = 0; index < totalCostTwo.length; index++) {
+        const element = totalCostTwo[index];
+        const typeElement = typeOfMoneyTwo[index];
 
+        typeElement.textContent == 'UYU' ? sum += (parseInt(element.textContent))/41 : sum += (parseInt(element.textContent))/1;
 
-    goldradio.checked ? containerPrice.querySelectorAll('p')[3].textContent = 'USD ' + Math.round(0.15*totalCost + totalCostTwo) : NaN;
-    premiumradio.checked ? containerPrice.querySelectorAll('p')[3].textContent = 'USD ' + Math.round(0.07*totalCost + totalCostTwo) : NaN;
-    standardradio.checked ? containerPrice.querySelectorAll('p')[3].textContent = 'USD ' + Math.round(0.05*totalCost + totalCostTwo) : NaN; 
-}
+    }
 
-function calcSubtotal(){
-    const typeOfMoney = document.getElementById('typeOfMoney');
-    const typeOfMoneyTwo = document.getElementById('typeOfMoneyTwo');
+    for (let index = 0; index < totalCost.length; index++) {
+        const element = totalCost[index];
+        const typeElement = totalCost[index];
+        
+        typeElement.textContent == 'UYU' ? sum += (parseInt(element.textContent))/41 : sum += (parseInt(element.textContent))/1;
 
-    const totalCost = typeOfMoney.textContent == 'UYU' ? (parseInt(document.getElementById('totalCost').textContent))/42 : (parseInt(document.getElementById('totalCost').textContent))/1;
-    const totalCostTwo = typeOfMoneyTwo.textContent == 'UYU' ? (parseInt(document.getElementById('totalCostTwo').textContent))/42 : (parseInt(document.getElementById('totalCostTwo').textContent))/1;
+    }
+    //console.log(sum);
+
+    goldradio.checked ? containerPrice.querySelectorAll('p')[3].textContent = 'USD ' + Math.round(0.15*sum) : NaN;
+    premiumradio.checked ? containerPrice.querySelectorAll('p')[3].textContent = 'USD ' + Math.round(0.07*sum) : NaN;
+    standardradio.checked ? containerPrice.querySelectorAll('p')[3].textContent = 'USD ' + Math.round(0.05*sum) : NaN;
     
-    containerPrice.querySelectorAll('p')[1].textContent = 'USD ' + Math.round(totalCost + totalCostTwo)
-
+    containerPrice.querySelectorAll('p')[1].textContent = 'USD ' + Math.round(sum)
 }
+
 
 function calcTotal(){
     const typeOfMoney = document.getElementById('typeOfMoney');
@@ -197,6 +190,41 @@ function disableBox(){
 }
 
 
+const catchCart = e => {
+
+    let arrayCartProduct = localStorage.getItem("data");
+    
+    arrayCartProduct = JSON.parse(arrayCartProduct);
+
+    for (let index = 0; index < arrayCartProduct.length; index++) {
+        const element = arrayCartProduct[index];
+
+        if(document.querySelectorAll('b#totalCostTwo')[index].dataset.id == e.target.dataset.id){
+
+            document.querySelectorAll('b#totalCostTwo')[index].textContent = parseInt(document.querySelectorAll('td#unit-cost-two')[index].textContent.slice(4)) * e.target.value;
+        }
+
+    
+    }
+
+}
+
+const catchTrash = e => {
+    let arrayCartProduct = localStorage.getItem("data");
+    // let userArticle = presentCartArray.articles
+    // let arrayTrashTwo = document.querySelectorAll(".btn.btn-danger.bi-trash.rounded-3.two");
+    // let arrayTrashOne = document.querySelectorAll(".btn.btn-danger.bi-trash.rounded-3.one");
+    
+    arrayCartProduct = JSON.parse(arrayCartProduct);
+    //console.log(userArticle.indexOf(0))
+
+
+    const newArray = arrayCartProduct.filter(item => item.id != e.target.id);
+
+    localStorage.setItem('data' ,JSON.stringify(newArray));
+
+
+}
 
 //Event listener
 
@@ -208,7 +236,6 @@ document.addEventListener("DOMContentLoaded", function (e) {
             showCart();
             getProductInfo();
             calcPercent();
-            calcSubtotal();
             calcTotal();
         }
     });
@@ -217,15 +244,19 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
     allowEntry();
 
-    // cat();
 });
 
-document.addEventListener("input", function(e){
+document.addEventListener("change", function(e){
     calcPercent();
-    calcSubtotal();
+    //calcSubtotal();
     calcTotal();
 })
 
 exampleModal.addEventListener("click", function(e){
     disableBox();
 });
+
+itemsCart.addEventListener('click', function(e){
+    catchCart(e);
+    catchTrash(e);
+})
