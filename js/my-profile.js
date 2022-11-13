@@ -9,6 +9,7 @@ const btnSave = document.getElementById('btn-save');
 const email = document.getElementById('email');
 const yourEmail = localStorage.getItem('userName');
 const inputImgProfile = document.getElementById('inputImgProfile');
+const alertSuccess = document.getElementById('alert-success');
 let arrayObj = [];
 
 
@@ -27,11 +28,14 @@ function profileValidation(){
     firstName.value != '' ? (validationFirstName.className = 'valid-feedback') && (validationFirstName.textContent = "Esta correcto") && (firstName.className = 'form-control is-valid') : (validationFirstName.className = 'invalid-feedback') && (validationFirstName.textContent = "Ingresa su nombre") && (firstName.className = 'form-control is-invalid') && (checkTotal = true);
     firstSurname.value != '' ? (validationFirstSurname.className = 'valid-feedback') && (validationFirstSurname.textContent = "Esta correcto") && (firstSurname.className = 'form-control is-valid') : (validationFirstSurname.className = 'invalid-feedback') && (validationFirstSurname.textContent = "Ingrese su apellido") && (firstSurname.className = 'form-control is-invalid') && (checkTotal = true);
     //movilPhone.value != '' ? (validationMovilPhone.className = 'valid-feedback') && (validationMovilPhone.textContent = "Esta correcto") && (movilPhone.className = 'form-control is-valid') : (validationMovilPhone.className = 'invalid-feedback') && (validationMovilPhone.textContent = "Ingrese su telefono de contacto") && (movilPhone.className = 'form-control is-invalid') && (checkTotal = true);
-    checkTotal ? alert("Hay campos obligatorios vacios") : localStorage.setItem("saveInfoProfile", JSON.stringify(itemCraft()));//(document.getElementById('buySuccess').className = 'alert alert-success') && (document.getElementById('buySuccess').querySelector('strong').textContent = "Has comprado con exito!")
+    checkTotal ? alert("Hay campos obligatorios vacios") : localStorage.setItem("saveInfoProfile", JSON.stringify(itemCraft()));
+    if(checkTotal == false){
+        showAlert();    
+    }
 
 }
 
-function initValidation(){
+function initFeedback(){
 
     firstName.value != '' ? (validationFirstName.className = 'valid-feedback') && (validationFirstName.textContent = "Esta correcto") && (firstName.className = 'form-control is-valid') : (validationFirstName.className = 'invalid-feedback') && (validationFirstName.textContent = "Ingresa su nombre") && (firstName.className = 'form-control is-invalid') && (checkTotal = true);
     firstSurname.value != '' ? (validationFirstSurname.className = 'valid-feedback') && (validationFirstSurname.textContent = "Esta correcto") && (firstSurname.className = 'form-control is-valid') : (validationFirstSurname.className = 'invalid-feedback') && (validationFirstSurname.textContent = "Ingrese su apellido") && (firstSurname.className = 'form-control is-invalid') && (checkTotal = true);
@@ -63,6 +67,18 @@ function itemCraft(){
 
 }
 
+const hiddenAlert = () => {
+    alertSuccess.className = 'alert alert-success fade'
+}
+
+const showAlert = () => {
+    const checkArray = JSON.parse(localStorage.getItem("saveInfoProfile"))
+
+    if(checkArray != '[]'){
+        alertSuccess.className = 'alert alert-success'
+        setTimeout(hiddenAlert, 2500);
+    }
+}
 
 myFunction();
 
@@ -74,17 +90,18 @@ showEmail();
 //Event listener
 
 btnSave.addEventListener("click", function(e){
-
+    
     profileValidation();
+  
 })
 
 window.addEventListener("input", function(e){
 
-    initValidation();
+    initFeedback();
 })
 
 document.getElementById('inputImgProfile').addEventListener("change", function(){
-    
+
     console.log(this.files)
     const reader = new FileReader();
 
@@ -93,11 +110,12 @@ document.getElementById('inputImgProfile').addEventListener("change", function()
     })
 
     reader.readAsDataURL(this.files[0]);
+
 })
 
-document.getElementById('inputImgProfile').addEventListener("change", ()=>{
+document.getElementById('inputImgProfile').addEventListener("input", ()=>{
     const instaImg = localStorage.getItem("insta-img");
-    console.log(instaImg)
+    //console.log(instaImg)
 
     if(instaImg){
         document.getElementById('imgProfile').setAttribute("src", instaImg);

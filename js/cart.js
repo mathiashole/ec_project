@@ -60,13 +60,13 @@ const showCart = () => {
     })
     itemsCart.appendChild(fragment)
 
-    showFooter()
+    // showFooter()
 
 }
 
 const showFooter = () => {
     footer.innerHTML = ''
-    if(presentCartArray.articles.length === 0){
+    if((presentCartArray.articles.length || JSON.parse(localStorage.getItem('data')).length) === 0){
         footer.innerHTML= `
         <th scope="row" colspan="5">Carrito vacio, Agregue sus productos</th>
         `
@@ -156,20 +156,48 @@ function calcPercent(){
     premiumradio.checked ? containerPrice.querySelectorAll('p')[3].textContent = 'USD ' + Math.round(0.07*sum) : NaN;
     standardradio.checked ? containerPrice.querySelectorAll('p')[3].textContent = 'USD ' + Math.round(0.05*sum) : NaN;
     
+    // containerPrice.querySelectorAll('p')[1].textContent = 'USD ' + Math.round(sum)
+}
+
+function calcSubtotal(){
+    let totalCostTwo = document.querySelectorAll('b#totalCostTwo');
+    let typeOfMoneyTwo = document.querySelectorAll('b#typeOfMoneyTwo');
+    let typeOfMoney = document.querySelectorAll('b#typeOfMoney');
+    let totalCost = document.querySelectorAll('b#totalCost');
+    let sum = 0;
+
+    for (let index = 0; index < totalCostTwo.length; index++) {
+        const element = totalCostTwo[index];
+        const typeElement = typeOfMoneyTwo[index];
+
+        typeElement.textContent == 'UYU' ? sum += (parseInt(element.textContent))/41 : sum += (parseInt(element.textContent))/1;
+
+    }
+
+    for (let index = 0; index < totalCost.length; index++) {
+        const element = totalCost[index];
+        const typeElement = typeOfMoney[index];
+        
+        typeElement.textContent == 'UYU' ? sum += (parseInt(element.textContent))/41 : sum += (parseInt(element.textContent))/1;
+
+    }
+
     containerPrice.querySelectorAll('p')[1].textContent = 'USD ' + Math.round(sum)
+
 }
 
 
 function calcTotal(){
-    const typeOfMoney = document.getElementById('typeOfMoney');
-    const typeOfMoneyTwo = document.getElementById('typeOfMoneyTwo');
+    // const typeOfMoney = document.getElementById('typeOfMoney');
+    // const typeOfMoneyTwo = document.getElementById('typeOfMoneyTwo');
+    const totalProduct = parseInt(containerPrice.querySelectorAll('p')[1].textContent.slice(4));
     const totalPercent = parseInt(containerPrice.querySelectorAll('p')[3].textContent.slice(4));
 
 
-    const totalCost = typeOfMoney.textContent == 'UYU' ? (parseInt(document.getElementById('totalCost').textContent))/2 : (parseInt(document.getElementById('totalCost').textContent))/1;
-    const totalCostTwo = typeOfMoneyTwo.textContent == 'UYU' ? (parseInt(document.getElementById('totalCostTwo').textContent))/2 : (parseInt(document.getElementById('totalCostTwo').textContent))/1;
+    // const totalCost = typeOfMoney.textContent == 'UYU' ? (parseInt(document.getElementById('totalCost').textContent))/2 : (parseInt(document.getElementById('totalCost').textContent))/1;
+    // const totalCostTwo = typeOfMoneyTwo.textContent == 'UYU' ? (parseInt(document.getElementById('totalCostTwo').textContent))/2 : (parseInt(document.getElementById('totalCostTwo').textContent))/1;
     
-    containerPrice.querySelectorAll('p')[4].textContent = 'USD ' + Math.round(totalCost + totalCostTwo + totalPercent)
+    containerPrice.querySelectorAll('p')[4].textContent = 'USD ' + Math.round(totalProduct + totalPercent)
     
 
 }
@@ -210,6 +238,7 @@ const catchCart = e => {
 }
 
 const catchTrash = e => {
+    console.log(e.target.parentElement);
     let arrayCartProduct = localStorage.getItem("data");
     // let userArticle = presentCartArray.articles
     // let arrayTrashTwo = document.querySelectorAll(".btn.btn-danger.bi-trash.rounded-3.two");
@@ -223,6 +252,10 @@ const catchTrash = e => {
 
     localStorage.setItem('data' ,JSON.stringify(newArray));
 
+    // document.querySelectorAll('.btn.btn-danger.bi-trash.rounded-3').addEventListener("click", function(){
+    //     e.target.parentElement == "";
+    // })
+
 
 }
 
@@ -232,11 +265,12 @@ document.addEventListener("DOMContentLoaded", function (e) {
     getJSONData(CART_USER).then(function (resultObj) {
         if (resultObj.status === "ok") {
             presentCartArray = resultObj.data
-            // cat();
             showCart();
             getProductInfo();
+            calcSubtotal();
             calcPercent();
             calcTotal();
+            showFooter();
         }
     });
 
@@ -246,9 +280,9 @@ document.addEventListener("DOMContentLoaded", function (e) {
 
 });
 
-document.addEventListener("change", function(e){
+document.addEventListener("input", function(e){
     calcPercent();
-    //calcSubtotal();
+    calcSubtotal();
     calcTotal();
 })
 
